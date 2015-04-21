@@ -48,10 +48,20 @@ namespace RealTimePNL
         void GetTotalPNL()
         {
             float pnl = 0;
+            float lasthold = 0;
+            float curhold = 0;
             for(int i = 0;i<mtable.Rows.Count;i++)
             {
-                pnl+=float.Parse(mtable.Rows[i][3].ToString());
+                float lastcls = float.Parse(mtable.Rows[i][2].ToString());
+                float curcls = float.Parse(mtable.Rows[i][3].ToString());
+                float shr = float.Parse(mtable.Rows[i][1].ToString());
+                //pnl+=float.Parse(mtable.Rows[i][4].ToString());
+                lasthold += shr * lastcls;
+                curhold += shr * curcls;
             }
+            pnl = curhold - lasthold;
+            lbLastHold.Text = lasthold.ToString();
+            lbCurHold.Text = curhold.ToString();
             lbPNL.Text = pnl.ToString();
         }
 
@@ -63,12 +73,13 @@ namespace RealTimePNL
                 DataTable atable = csvhelper.OpenCSV(fname);
                 if (atable.Rows.Count != 0)
                 {
+                    float lastcls = float.Parse(mtable.Rows[i][2].ToString());
                     float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
                     if (cls != 0)
                     {
-                        mtable.Rows[i][2] = cls.ToString();
+                        mtable.Rows[i][3] = cls.ToString();
                     }
-                    mtable.Rows[i][3] = cls * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                    mtable.Rows[i][4] = (cls-lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
                 }
             }
             GetTotalPNL();
@@ -90,7 +101,8 @@ namespace RealTimePNL
                 string production = "production" + opendialog.FileName[index + 10];
                 tabControl1.TabPages[0].Text = production;
                 mtable.Rows[0].Delete();
-                mtable.Columns.Add("pnl", typeof(float));
+                mtable.Columns.Add("Current px", typeof(float));
+                mtable.Columns.Add("PNL", typeof(float));
             }
             RefreshData();
         }
