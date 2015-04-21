@@ -51,9 +51,12 @@ namespace RealTimePNL
             {
                 string fname = REALTIMEPATH + fdate + "\\" + mtable.Rows[i][0] + ".csv";
                 DataTable atable = csvhelper.OpenCSV(fname);
-                float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString())/10000;
-                mtable.Rows[i][2] = cls.ToString();
-                mtable.Rows[i][3] = cls * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                if (atable.Rows.Count != 0)
+                {
+                    float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
+                    mtable.Rows[i][2] = cls.ToString();
+                    mtable.Rows[i][3] = cls * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                }
             }
         }
 
