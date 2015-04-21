@@ -73,8 +73,11 @@ namespace RealTimePNL
         {
            // Encoding encoding = Common.GetType(filePath); //Encoding.ASCII;//
             DataTable dt = new DataTable();
+            if (!File.Exists(filePath))
+            {
+                return dt;
+            }
             FileStream fs = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-
             StreamReader sr = new StreamReader(fs, Encoding.UTF8);
             //StreamReader sr = new StreamReader(fs, encoding);
             //string fileContent = sr.ReadToEnd();
