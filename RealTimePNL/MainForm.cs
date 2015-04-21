@@ -28,7 +28,7 @@ namespace RealTimePNL
 
         public MainForm()
         {
-            fdate = "20150417";//test
+            //fdate = "20150417";//test
             InitializeComponent();
             lbDate.Text = fdate;
             lbTime.Text = DateTime.Now.ToLongTimeString();
