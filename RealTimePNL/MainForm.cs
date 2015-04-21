@@ -45,6 +45,7 @@ namespace RealTimePNL
             lbTime.Text = DateTime.Now.ToLongTimeString();
         }
 
+
         private void ReadRealTimeData()
         { 
             for(int i = 0;i < mtable.Rows.Count;i++)
