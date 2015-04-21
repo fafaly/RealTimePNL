@@ -28,7 +28,7 @@ namespace RealTimePNL
 
         public MainForm()
         {
-            fdate = "20150417";//test
+            fdate = "20150416";//test
             InitializeComponent();
             lbDate.Text = fdate;
             lbTime.Text = DateTime.Now.ToLongTimeString();
@@ -45,6 +45,16 @@ namespace RealTimePNL
             lbTime.Text = DateTime.Now.ToLongTimeString();
         }
 
+        void GetTotalPNL()
+        {
+            float pnl = 0;
+            for(int i = 0;i<mtable.Rows.Count;i++)
+            {
+                pnl+=float.Parse(mtable.Rows[i][3].ToString());
+            }
+            lbPNL.Text = pnl.ToString();
+        }
+
         private void ReadRealTimeData()
         { 
             for(int i = 0;i < mtable.Rows.Count;i++)
@@ -54,10 +64,14 @@ namespace RealTimePNL
                 if (atable.Rows.Count != 0)
                 {
                     float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
-                    mtable.Rows[i][2] = cls.ToString();
+                    if (cls != 0)
+                    {
+                        mtable.Rows[i][2] = cls.ToString();
+                    }
                     mtable.Rows[i][3] = cls * float.Parse(mtable.Rows[i][1].ToString());//get pnl
                 }
             }
+            GetTotalPNL();
         }
 
         /// <summary>

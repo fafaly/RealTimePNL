@@ -49,6 +49,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMain = new System.Windows.Forms.DataGridView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.lbPNL = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -65,7 +66,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(637, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(673, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -114,6 +115,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.panel1.Controls.Add(this.lbPNL);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnRefresh);
             this.panel1.Controls.Add(this.comboBox1);
@@ -125,23 +127,23 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(637, 35);
+            this.panel1.Size = new System.Drawing.Size(673, 35);
             this.panel1.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(464, 12);
+            this.label2.Location = new System.Drawing.Point(402, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "minutes";
+            this.label2.Text = "Total PNL:";
             // 
             // btnRefresh
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(535, 7);
+            this.btnRefresh.Location = new System.Drawing.Point(571, 7);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 6;
@@ -151,7 +153,6 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
@@ -159,7 +160,7 @@
             "2",
             "5",
             "10"});
-            this.comboBox1.Location = new System.Drawing.Point(417, 9);
+            this.comboBox1.Location = new System.Drawing.Point(326, 9);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(41, 21);
             this.comboBox1.TabIndex = 5;
@@ -167,9 +168,8 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(326, 12);
+            this.label5.Location = new System.Drawing.Point(235, 12);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 13);
             this.label5.TabIndex = 4;
@@ -223,7 +223,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(629, 659);
+            this.tabPage1.Size = new System.Drawing.Size(665, 659);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Production";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -239,7 +239,7 @@
             this.dgvMain.Name = "dgvMain";
             this.dgvMain.ReadOnly = true;
             this.dgvMain.RowHeadersVisible = false;
-            this.dgvMain.Size = new System.Drawing.Size(623, 653);
+            this.dgvMain.Size = new System.Drawing.Size(659, 653);
             this.dgvMain.TabIndex = 2;
             // 
             // tabControl1
@@ -249,14 +249,24 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 59);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(637, 685);
+            this.tabControl1.Size = new System.Drawing.Size(673, 685);
             this.tabControl1.TabIndex = 3;
+            // 
+            // lbPNL
+            // 
+            this.lbPNL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbPNL.AutoSize = true;
+            this.lbPNL.Location = new System.Drawing.Point(460, 12);
+            this.lbPNL.Name = "lbPNL";
+            this.lbPNL.Size = new System.Drawing.Size(13, 13);
+            this.lbPNL.TabIndex = 8;
+            this.lbPNL.Text = "0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 744);
+            this.ClientSize = new System.Drawing.Size(673, 744);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -298,6 +308,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView dgvMain;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Label lbPNL;
     }
 }
 
