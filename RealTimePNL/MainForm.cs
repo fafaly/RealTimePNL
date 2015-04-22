@@ -28,7 +28,7 @@ namespace RealTimePNL
 
         public MainForm()
         {
-            //fdate = "20150417";//test
+           // fdate = "20150416";//test
             InitializeComponent();
             lbDate.Text = fdate;
             lbTime.Text = DateTime.Now.ToLongTimeString();
@@ -45,6 +45,35 @@ namespace RealTimePNL
             lbTime.Text = DateTime.Now.ToLongTimeString();
         }
 
+        void GetTotalPNL()
+        {
+            float pnl = 0;
+            float lasthold = 0;
+            float curhold = 0;
+            float curcls = 0;
+            for(int i = 0;i<mtable.Rows.Count;i++)
+            {
+                float lastcls = float.Parse(mtable.Rows[i][2].ToString());
+                if (mtable.Rows[i][3].ToString() == "" || mtable.Rows[i][3].ToString() == "0")
+                {
+                    curcls = lastcls;
+                }
+                else
+                {
+                    curcls = float.Parse(mtable.Rows[i][3].ToString()); 
+                }
+                
+                float shr = float.Parse(mtable.Rows[i][1].ToString());
+                //pnl+=float.Parse(mtable.Rows[i][4].ToString());
+                lasthold += shr * lastcls;
+                curhold += shr * curcls;
+            }
+            pnl = curhold - lasthold;
+            lbLastHold.Text = lasthold.ToString();
+            lbCurHold.Text = curhold.ToString();
+            lbPNL.Text = pnl.ToString();
+        }
+
         private void ReadRealTimeData()
         { 
             for(int i = 0;i < mtable.Rows.Count;i++)
@@ -53,11 +82,17 @@ namespace RealTimePNL
                 DataTable atable = csvhelper.OpenCSV(fname);
                 if (atable.Rows.Count != 0)
                 {
+                    float lastcls = float.Parse(mtable.Rows[i][2].ToString());
                     float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
-                    mtable.Rows[i][2] = cls.ToString();
-                    mtable.Rows[i][3] = cls * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                    if(cls==0)
+                    {
+                        cls = lastcls;
+                    }
+                    mtable.Rows[i][3] = cls.ToString();
+                    mtable.Rows[i][4] = (cls-lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
                 }
             }
+            GetTotalPNL();
         }
 
         /// <summary>
@@ -76,7 +111,8 @@ namespace RealTimePNL
                 string production = "production" + opendialog.FileName[index + 10];
                 tabControl1.TabPages[0].Text = production;
                 mtable.Rows[0].Delete();
-                mtable.Columns.Add("pnl", typeof(float));
+                mtable.Columns.Add("Current px", typeof(float));
+                mtable.Columns.Add("PNL", typeof(float));
             }
             RefreshData();
         }
