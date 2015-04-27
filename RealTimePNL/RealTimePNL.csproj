@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CSVFileHelper.cs" />
     <Compile Include="DataFetch.cs" />
+    <Compile Include="GetRealTimeDll.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

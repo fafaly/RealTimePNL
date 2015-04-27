@@ -28,13 +28,13 @@ namespace RealTimePNL
 
         public MainForm()
         {
-           // fdate = "20150416";//test
+            // fdate = "20150416";//test
             InitializeComponent();
             lbDate.Text = fdate;
             lbTime.Text = DateTime.Now.ToLongTimeString();
             comboBox1.Text = "5";
 
-            timer1.Interval = 5 * 1000 *60;
+            timer1.Interval = 5 * 1000 * 60;
         }
 
         void RefreshData()
@@ -53,7 +53,7 @@ namespace RealTimePNL
             float lasthold = 0;
             float curhold = 0;
             float curcls = 0;
-            for(int i = 0;i<mtable.Rows.Count;i++)
+            for (int i = 0; i < mtable.Rows.Count; i++)
             {
                 float lastcls = float.Parse(mtable.Rows[i][2].ToString());
                 if (mtable.Rows[i]["Current px"].ToString() == "" || mtable.Rows[i]["Current px"].ToString() == "0")
@@ -62,9 +62,9 @@ namespace RealTimePNL
                 }
                 else
                 {
-                    curcls = float.Parse(mtable.Rows[i]["Current px"].ToString()); 
+                    curcls = float.Parse(mtable.Rows[i]["Current px"].ToString());
                 }
-                
+
                 float shr = float.Parse(mtable.Rows[i][1].ToString());
                 //pnl+=float.Parse(mtable.Rows[i][4].ToString());
                 lasthold += shr * lastcls;
@@ -78,8 +78,26 @@ namespace RealTimePNL
         }
 
         private void ReadRealTimeData()
-        { 
-            for(int i = 0;i < mtable.Rows.Count;i++)
+        {
+            for (int i = 0; i < mtable.Rows.Count; i++)
+            {
+                float lastcls = float.Parse(mtable.Rows[i][2].ToString());
+                float cls = GetRealTimeDll.GetCurrentPx(mtable.Rows[i][0].ToString());
+                if (cls == 0)
+                {
+                    cls = lastcls;
+                }
+                mtable.Rows[i]["Current Px"] = cls;//get current px
+                mtable.Rows[i]["PNL"] = (cls - lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+
+                mtable.Rows[i]["Return(%)"] = Math.Round((cls / lastcls - 1) * 100, 3);
+            }
+            GetTotalPNL();
+        }
+
+        private void ReadRealTimeDataCSV()
+        {
+            for (int i = 0; i < mtable.Rows.Count; i++)
             {
                 string fname = REALTIMEPATH + fdate + "\\" + mtable.Rows[i][0] + ".csv";
                 DataTable atable = csvhelper.OpenCSV(fname);
@@ -87,14 +105,14 @@ namespace RealTimePNL
                 float cls = 0;
                 if (atable.Rows.Count != 0)
                 {
-                    
+
                     cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
-                    if(cls==0)
+                    if (cls == 0)
                     {
                         cls = lastcls;
                     }
                     mtable.Rows[i]["Current Px"] = cls;//get current px
-                    mtable.Rows[i]["PNL"] = (cls-lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                    mtable.Rows[i]["PNL"] = (cls - lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
                 }
                 else
                 {
@@ -102,7 +120,7 @@ namespace RealTimePNL
                     mtable.Rows[i]["Current Px"] = cls;
                     mtable.Rows[i]["PNL"] = 0;
                 }
-                mtable.Rows[i]["Return(%)"] = Math.Round((cls / lastcls - 1)*100,3);
+                mtable.Rows[i]["Return(%)"] = Math.Round((cls / lastcls - 1) * 100, 3);
             }
             GetTotalPNL();
         }
@@ -114,10 +132,10 @@ namespace RealTimePNL
         /// <param name="e"></param>
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             OpenFileDialog opendialog = new OpenFileDialog();
-            if(opendialog.ShowDialog()==DialogResult.OK)
-            {              
+            if (opendialog.ShowDialog() == DialogResult.OK)
+            {
                 mtable = csvhelper.OpenCSV(opendialog.FileName);
                 int index = opendialog.FileName.IndexOf("production");
                 string production = "production" + opendialog.FileName[index + 10];
@@ -127,12 +145,12 @@ namespace RealTimePNL
                 mtable.Columns.Add("Current px", typeof(float));
                 mtable.Columns.Add("Return(%)", typeof(float));
                 mtable.Columns.Add("PNL", typeof(float));
-                for(int i = 0 ;i< mtable.Rows.Count;i++)
+                for (int i = 0; i < mtable.Rows.Count; i++)
                 {
-                    float shr=float.Parse(mtable.Rows[i][1].ToString());
-                    float cls=float.Parse(mtable.Rows[i][2].ToString());
+                    float shr = float.Parse(mtable.Rows[i][1].ToString());
+                    float cls = float.Parse(mtable.Rows[i][2].ToString());
                     mtable.Rows[i]["Position"] = (shr * cls).ToString();
-                    if(mtable.Rows[i][0].ToString().Substring(0,1) == "#")
+                    if (mtable.Rows[i][0].ToString().Substring(0, 1) == "#")
                     {
                         mtable.Rows[i].Delete();
                     }
@@ -161,7 +179,7 @@ namespace RealTimePNL
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this,"Copy right by xtcapital\n\n  2015/04/20  yliu","About",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show(this, "Copy right by xtcapital\n\n  2015/04/20  yliu", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
