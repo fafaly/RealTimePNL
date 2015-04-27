@@ -57,6 +57,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbReturn = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -76,7 +78,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(604, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(691, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -135,13 +137,13 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(604, 34);
+            this.panel1.Size = new System.Drawing.Size(691, 34);
             this.panel1.TabIndex = 1;
             // 
             // btnRefresh
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(502, 6);
+            this.btnRefresh.Location = new System.Drawing.Point(589, 6);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 21);
             this.btnRefresh.TabIndex = 6;
@@ -241,7 +243,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(596, 458);
+            this.tabPage1.Size = new System.Drawing.Size(683, 580);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Production";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -257,7 +259,7 @@
             this.dgvMain.Name = "dgvMain";
             this.dgvMain.ReadOnly = true;
             this.dgvMain.RowHeadersVisible = false;
-            this.dgvMain.Size = new System.Drawing.Size(590, 452);
+            this.dgvMain.Size = new System.Drawing.Size(677, 574);
             this.dgvMain.TabIndex = 2;
             // 
             // tabControl1
@@ -267,7 +269,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(604, 484);
+            this.tabControl1.Size = new System.Drawing.Size(691, 606);
             this.tabControl1.TabIndex = 3;
             // 
             // lbLastHold
@@ -313,6 +315,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.LightGreen;
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.lbReturn);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.lbCurHold);
             this.panel2.Controls.Add(this.label2);
@@ -322,7 +326,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 33);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(604, 30);
+            this.panel2.Size = new System.Drawing.Size(691, 30);
             this.panel2.TabIndex = 13;
             // 
             // panel3
@@ -332,7 +336,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 25);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(604, 63);
+            this.panel3.Size = new System.Drawing.Size(691, 63);
             this.panel3.TabIndex = 3;
             // 
             // panel4
@@ -341,14 +345,34 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 88);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(604, 484);
+            this.panel4.Size = new System.Drawing.Size(691, 606);
             this.panel4.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(569, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 12);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Return:";
+            // 
+            // lbReturn
+            // 
+            this.lbReturn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lbReturn.AutoSize = true;
+            this.lbReturn.Location = new System.Drawing.Point(633, 8);
+            this.lbReturn.Name = "lbReturn";
+            this.lbReturn.Size = new System.Drawing.Size(11, 12);
+            this.lbReturn.TabIndex = 14;
+            this.lbReturn.Text = "0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 572);
+            this.ClientSize = new System.Drawing.Size(691, 694);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.menuStrip1);
@@ -402,6 +426,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbReturn;
     }
 }
 

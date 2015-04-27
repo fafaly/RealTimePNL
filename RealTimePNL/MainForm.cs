@@ -13,7 +13,7 @@ namespace RealTimePNL
 {
     public partial class MainForm : Form
     {
-      
+
 
         CSVFileHelper csvhelper = new CSVFileHelper();
 
@@ -43,6 +43,8 @@ namespace RealTimePNL
             dgvMain.DataSource = mtable;
             dgvMain.Refresh();
             lbTime.Text = DateTime.Now.ToLongTimeString();
+            fdate = DateTime.Today.ToString("yyyyMMdd");
+            lbDate.Text = fdate;
         }
 
         void GetTotalPNL()
@@ -54,13 +56,13 @@ namespace RealTimePNL
             for(int i = 0;i<mtable.Rows.Count;i++)
             {
                 float lastcls = float.Parse(mtable.Rows[i][2].ToString());
-                if (mtable.Rows[i][3].ToString() == "" || mtable.Rows[i][3].ToString() == "0")
+                if (mtable.Rows[i]["Current px"].ToString() == "" || mtable.Rows[i]["Current px"].ToString() == "0")
                 {
                     curcls = lastcls;
                 }
                 else
                 {
-                    curcls = float.Parse(mtable.Rows[i][3].ToString()); 
+                    curcls = float.Parse(mtable.Rows[i]["Current px"].ToString()); 
                 }
                 
                 float shr = float.Parse(mtable.Rows[i][1].ToString());
@@ -72,6 +74,7 @@ namespace RealTimePNL
             lbLastHold.Text = lasthold.ToString();
             lbCurHold.Text = curhold.ToString();
             lbPNL.Text = pnl.ToString();
+            lbReturn.Text = Math.Round(pnl / curhold * 100, 3).ToString() + "%";
         }
 
         private void ReadRealTimeData()
@@ -80,17 +83,26 @@ namespace RealTimePNL
             {
                 string fname = REALTIMEPATH + fdate + "\\" + mtable.Rows[i][0] + ".csv";
                 DataTable atable = csvhelper.OpenCSV(fname);
+                float lastcls = float.Parse(mtable.Rows[i][2].ToString());
+                float cls = 0;
                 if (atable.Rows.Count != 0)
                 {
-                    float lastcls = float.Parse(mtable.Rows[i][2].ToString());
-                    float cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
+                    
+                    cls = float.Parse(atable.Rows[atable.Rows.Count - 1][4].ToString()) / 10000;
                     if(cls==0)
                     {
                         cls = lastcls;
                     }
-                    mtable.Rows[i][3] = cls.ToString();
-                    mtable.Rows[i][4] = (cls-lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
+                    mtable.Rows[i]["Current Px"] = cls;//get current px
+                    mtable.Rows[i]["PNL"] = (cls-lastcls) * float.Parse(mtable.Rows[i][1].ToString());//get pnl
                 }
+                else
+                {
+                    cls = lastcls;
+                    mtable.Rows[i]["Current Px"] = cls;
+                    mtable.Rows[i]["PNL"] = 0;
+                }
+                mtable.Rows[i]["Return(%)"] = Math.Round((cls / lastcls - 1)*100,3);
             }
             GetTotalPNL();
         }
@@ -111,8 +123,20 @@ namespace RealTimePNL
                 string production = "production" + opendialog.FileName[index + 10];
                 tabControl1.TabPages[0].Text = production;
                 mtable.Rows[0].Delete();
+                mtable.Columns.Add("Position", typeof(float));
                 mtable.Columns.Add("Current px", typeof(float));
+                mtable.Columns.Add("Return(%)", typeof(float));
                 mtable.Columns.Add("PNL", typeof(float));
+                for(int i = 0 ;i< mtable.Rows.Count;i++)
+                {
+                    float shr=float.Parse(mtable.Rows[i][1].ToString());
+                    float cls=float.Parse(mtable.Rows[i][2].ToString());
+                    mtable.Rows[i]["Position"] = (shr * cls).ToString();
+                    if(mtable.Rows[i][0].ToString().Substring(0,1) == "#")
+                    {
+                        mtable.Rows[i].Delete();
+                    }
+                }
             }
             RefreshData();
         }
